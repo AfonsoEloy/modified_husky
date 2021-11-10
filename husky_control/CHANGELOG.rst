@@ -98,7 +98,7 @@ Changelog for package husky_control
 
 0.2.1 (2015-03-23)
 ------------------
-* Update control params with base_link
+* Update control params with bobcat_base
 * Contributors: Paul Bovbel
 
 0.2.0 (2015-03-23)
@@ -116,7 +116,7 @@ Changelog for package husky_control
 
 * Update website
 * Add author
-* Get rid of chassis_link, switch to base_footprint and base_link
+* Get rid of chassis_link, switch to base_footprint and bobcat_base
 * Turn on 2d mode; future proof robot_localization parameters
 * Refactor configuration files into modules
 * Re-enable IMU orientation fusion

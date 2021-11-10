@@ -65,7 +65,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <xacro:property name="wheel_radius" value="0.1651" />
 
   <!-- Base link is the center of the robot's bottom plate -->
-  <link name="base_link">
+  <link name="bobcat_base">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -87,13 +87,13 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   </link>
 
   <!-- Base footprint is on the ground under the robot -->
-  <link name="base_footprint"/>
+  <!-- <link name="base_footprint"/>
 
   <joint name="base_footprint_joint" type="fixed">
     <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
-    <parent link="base_link" />
+    <parent link="bobcat_base" />
     <child link="base_footprint" />
-  </joint>
+  </joint> -->
 
   <!-- Inertial link stores the robot's inertial information -->
   <link name="inertial_link">
@@ -101,12 +101,17 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <mass value="46.034" />
       <origin xyz="-0.00065 -0.085 0.062" />
       <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" />
+      <!-- <inertia
+          ixx="${(3000 * (base_y_size*base_y_size + base_z_size*base_z_size)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(3000 * (base_z_size*base_z_size + base_x_size*base_x_size)) / 12.0}" iyz="0"
+          izz="${(3000 * (base_y_size*base_y_size + base_x_size*base_x_size)) / 12.0}"
+      /> -->
     </inertial>
   </link>
 
   <joint name="inertial_joint" type="fixed">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_link" />
+    <parent link="bobcat_base" />
     <child link="inertial_link" />
   </joint>
 
@@ -115,7 +120,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <link name="imu_link"/>
   <joint name="imu_joint" type="fixed">
     <origin xyz="$(optenv HUSKY_IMU_XYZ 0.19 0 0.149)" rpy="$(optenv HUSKY_IMU_RPY 0 -1.5708 3.1416)" />
-    <parent link="base_link" />
+    <parent link="bobcat_base" />
     <child link="imu_link" />
   </joint>
   <gazebo reference="imu_link">
@@ -174,6 +179,142 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <xacro:intel_realsense_mount prefix="camera" topic="realsense" parent_link="realsense_mountpoint"/>
   </xacro:if>
 
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="bobcat_base" name="back_lidar" topic="back_lidar_pointcloud" organize_cloud="false" hz="10" samples="1875" gpu="true" noise="0.0" max_range="60.0">
+    <origin xyz="-1.435 0 1.425" rpy="0 0.25 -3.14159" />
+  </xacro:VLP-16>
+  
+  <xacro:VLP-16 parent="bobcat_base" name="front_lidar" topic="front_lidar_pointcloud" organize_cloud="false" hz="10" samples="1875" gpu="true" noise="0.0" max_range="60.0">
+    <origin xyz="0.5275 0.001 2.369" rpy="0 0.42 0" />
+  </xacro:VLP-16>
+
+<!-- THIS PART IS TO RENDER THE RANGER IN GAZEBO -->
+  <link name="bobcat_base_cover">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_description/meshes/bobcat_2.dae"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="arms_link">
+    <visual>
+      <origin xyz="0 0.015 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_description/meshes/arms_blender_2.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="back_bumper_link">
+    <visual>
+      <origin xyz="-0.085 -0.705 -0.17" rpy="1.57079632679 0 1.57079632679" />
+      <geometry>
+        <mesh filename="package://husky_description/meshes/Bumper V2.0.STL" scale="1 1 1"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <link name="back_box_link">
+    <visual>
+      <origin xyz="-0.045 0.1 -0.09" rpy="0 0 -1.57079632679" />
+      <geometry>
+        <mesh filename="package://husky_description/meshes/back_box.STL" scale="1 1 1"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <link name="sensor_box_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh filename="package://husky_description/meshes/sensor_box.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="base_sensing_kit">
+    <visual>
+      <origin xyz="0.0805 -0.001 -0.088" rpy="0.48 0 1.57079632679"/>
+      <geometry>
+        <mesh filename="package://husky_description/meshes/base_sensor_kit_white.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+  </link>
+
+
+  <link name="dalsa_link"/>
+  <link name="flir_ax8_link"/>
+  <link name="camera_link"/>
+  <link name="dalsa_optical_frame"/>
+
+
+  <joint name="base_to_arm" type="fixed">
+    <parent link="bobcat_base"/>
+    <child link="arms_link"/>
+    <origin xyz="-1.174615 0 1.413525" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="base_to_back_bumper" type="fixed">
+    <parent link="bobcat_base_cover"/>
+    <child link="back_bumper_link"/>
+    <origin rpy="0 0 -3.14159265359" xyz="-1.435 0 1.26"/>
+  </joint>
+
+  <joint name="base_to_back_box" type="fixed">
+    <parent link="bobcat_base_cover"/>
+    <child link="back_box_link"/>
+    <origin rpy="0 0 -3.14159265359" xyz="-1.40 0 1.12"/>
+  </joint>
+
+  <joint name="base_to_sensor_box" type="fixed">
+    <parent link="bobcat_base_cover"/>
+    <child link="sensor_box_link"/>
+    <origin rpy="0 0.68 0" xyz="0.4 0 2.2"/>
+  </joint>
+
+  <joint name="base_to_sensing_kit" type="fixed">
+    <parent link="bobcat_base_cover"/>
+    <child link="base_sensing_kit"/>
+    <origin rpy="0 0.42 0" xyz="0.5275 0.001 2.368"/>
+  </joint>
+
+  <joint name="base_sensing_kit_to_dalsa" type="fixed">
+    <parent link="base_sensing_kit"/>
+    <child link="dalsa_link"/>
+    <origin rpy="0 0.3 0" xyz="0.137 0 -0.055"/>
+  </joint>
+
+  <joint name="base_sensing_kit_to_flir_ax8" type="fixed">
+    <parent link="base_sensing_kit"/>
+    <child link="flir_ax8_link"/>
+    <origin rpy="0 0.3 0" xyz="0.162 0 -0.12"/>
+  </joint>
+
+  <joint name="base_sensing_kit_to_realsense" type="fixed">
+    <parent link="base_sensing_kit"/>
+    <child link="camera_link"/>
+    <origin rpy="0 1.15 0" xyz="0.153 0 -0.15"/>
+  </joint>
+
+  <joint name="dalsa_to_dalsa_optical_frame" type="fixed">
+    <parent link="dalsa_link"/>
+    <child link="dalsa_optical_frame"/>
+    <origin rpy="-1.57079 0 -1.57079" xyz="0 0 0"/>     
+  </joint>
+
+  <joint name="b_t_b" type="fixed">
+    <parent link="bobcat_base"/>
+    <child link="bobcat_base_cover"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>     
+  </joint>
+<!-- HERE ENDS THE RANGER RENDERING -->
+
+
+
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
@@ -181,11 +322,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     </plugin>
   </gazebo>
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>50.0</updateRate>
-      <bodyName>base_link</bodyName>
+      <bodyName>bobcat_base</bodyName>
       <topicName>imu/data</topicName>
       <accelDrift>0.005 0.005 0.005</accelDrift>
       <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
@@ -194,14 +335,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <headingDrift>0.005</headingDrift>
       <headingGaussianNoise>0.005</headingGaussianNoise>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
       <robotNamespace>$(arg robot_namespace)</robotNamespace>
       <updateRate>40</updateRate>
-      <bodyName>base_link</bodyName>
-      <frameId>base_link</frameId>
+      <bodyName>bobcat_base</bodyName>
+      <frameId>bobcat_base</frameId>
       <topicName>navsat/fix</topicName>
       <velocityTopicName>navsat/vel</velocityTopicName>
       <referenceLatitude>49.9</referenceLatitude>
@@ -209,6 +350,19 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <referenceHeading>0</referenceHeading>
       <referenceAltitude>0</referenceAltitude>
       <drift>0.0001 0.0001 0.0001</drift>
+    </plugin>
+  </gazebo> -->
+
+  <gazebo>
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50.0</updateRate>
+      <bodyName>bobcat_base</bodyName>
+      <topicName>odom</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
   </gazebo>
 

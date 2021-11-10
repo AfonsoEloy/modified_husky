@@ -1,5 +1,5 @@
 odom_frame: odom
-base_link_frame: base_link
+bobcat_base_frame: bobcat_base
 world_frame: odom
 
 two_d_mode: true

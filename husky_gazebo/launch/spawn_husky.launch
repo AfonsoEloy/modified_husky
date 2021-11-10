@@ -29,21 +29,74 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
   <arg name="robot_namespace" default="/"/>
 
-  <arg name="x" default="0.0"/>
-  <arg name="y" default="0.0"/>
-  <arg name="z" default="0.0"/>
-  <arg name="yaw" default="0.0"/>
+	<!-- Environment 2.1 - slight hill small -->
+  <!--arg name="x" default="3.4935"/>
+  <arg name="y" default="-17.3581"/>
+  <arg name="z" default="4.6503"/>
+  <arg name="roll" default="0.4607" />
+  <arg name="pitch" default="-0.0384" />
+  <arg name="yaw" default="-2.2142"/-->
+  <!-- Environment 2 - slight hill giant - melhor -->
+  <!-- <arg name="x" default="-13.7310"/>
+  <arg name="y" default="-46.0509"/>
+  <arg name="z" default="5.8482"/>
+  <arg name="roll" default="-0.1325" />
+  <arg name="pitch" default="-0.0182" />
+  <arg name="yaw" default="-0.8548"/> -->
+  <!-- Environment 2 - slight hill giant -->
+  <!-- <arg name="x" default="-11.1745"/>
+  <arg name="y" default="-36.0824"/>
+  <arg name="z" default="4.0746"/>
+  <arg name="roll" default="-0.1406" />
+  <arg name="pitch" default="-0.0502" />
+  <arg name="yaw" default="-0.8266"/> -->
+  <!-- Environment 1 - steep hill -->
+  <!-- <arg name="x" default="-11.6884"/>
+  <arg name="y" default="-21.6804"/>
+  <arg name="z" default="0.1429"/>
+  <arg name="roll" default="-0.0017" />
+  <arg name="pitch" default="-0.0000" />
+  <arg name="yaw" default="0.9807"/> -->
+  <!-- Environment 1 - steep hill large -->
+  <!-- <arg name="x" default="-34.1584"/>
+  <arg name="y" default="-98.3135"/>
+  <arg name="z" default="0.5244"/>
+  <arg name="roll" default="0.0000" />
+  <arg name="pitch" default="0.0000" />
+  <arg name="yaw" default="1.0067"/> -->
+  <!-- Environment 3 - forest -->
+  <!-- <arg name="x" default="-11.6884"/>
+  <arg name="y" default="-21.6804"/>
+  <arg name="z" default="0.1429"/>
+  <arg name="roll" default="-0.0017" />
+  <arg name="pitch" default="-0.0000" />
+  <arg name="yaw" default="0.9807"/> -->
+  <!-- Environment 3 - my forest -->
+  <!-- <arg name="x" default="31.7071"/>
+  <arg name="y" default="-7.6346"/>
+  <arg name="z" default="4.6841"/>
+  <arg name="roll" default="-0.1174" />
+  <arg name="pitch" default="0.0430" />
+  <arg name="yaw" default="2.6268"/> -->
+
+  <!-- Empty World -->
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="z" default="0"/>
+  <arg name="roll" default="0" />
+  <arg name="pitch" default="0" />
+  <arg name="yaw" default="1.5707"/>
 
   <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
   <arg name="realsense_enabled" default="$(optenv HUSKY_REALSENSE_ENABLED false)"/>
   <arg name="urdf_extras" default="$(optenv HUSKY_URDF_EXTRAS)"/>
 
   <!-- Optionally disable teleop control -->
-  <arg name="joystick" default="true" />
+  <!-- <arg name="joystick" default="true" /> -->
 
   <group ns="$(arg robot_namespace)">
 
-    <group if="$(arg multimaster)">
+    <!-- <group if="$(arg multimaster)">
       <include file="$(find husky_description)/launch/description.launch" >
         <arg name="robot_namespace" value="$(arg robot_namespace)"/>
         <arg name="laser_enabled" default="$(arg laser_enabled)"/>
@@ -56,9 +109,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <arg name="robot_namespace" value="$(arg robot_namespace)"/>
       </include>
 
-      <!-- For multimaster bringup, need to load the controller config -->
+      <!- For multimaster bringup, need to load the controller config ->
       <rosparam command="load" file="$(find husky_control)/config/control.yaml" />
-    </group>
+    </group> -->
 
     <!-- For single master bringup, run robot control on the gazebo master -->
     <!-- Note that husky_description/description.launch is already included in husky_control/control.launch. -->
@@ -69,9 +122,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         <arg name="realsense_enabled" default="$(arg realsense_enabled)"/>
         <arg name="urdf_extras" value="$(arg urdf_extras)"/>
       </include>
-      <include file="$(find husky_control)/launch/teleop.launch">
+      <!-- <include file="$(find husky_control)/launch/teleop.launch">
         <arg name="joystick" value="$(arg joystick)" />
-      </include>
+      </include> -->
     </group>
 
     <!-- Additional nodes for specific accessories -->
@@ -85,10 +138,14 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
               -y $(arg y)
               -z $(arg z)
               -Y $(arg yaw)
+              -R $(arg roll)
+              -P $(arg pitch)
               -unpause
               -urdf
               -param robot_description
               -model $(arg robot_namespace)" />
+
+              <node pkg="tf" type="static_transform_publisher" name="map" args="0 0 0 0 0 0 /map /odom 100" /> 
 
   </group>
 

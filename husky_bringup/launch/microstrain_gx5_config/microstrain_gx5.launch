@@ -46,7 +46,7 @@
     <param name="nav_rate" value="10" type="int" />
     <param name="dynamics_mode" value="1" type="int" />
     <param name="odom_frame_id" value="wgs84_odom_link" type="str" />
-    <param name="odom_child_frame_id" value="base_link" type="str" />
+    <param name="odom_child_frame_id" value="bobcat_base" type="str" />
   </node>
 
   <!-- Diagnostics -->

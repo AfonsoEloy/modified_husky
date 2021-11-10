@@ -110,7 +110,7 @@ Changelog for package husky_description
 0.2.1 (2015-03-23)
 ------------------
 * Port stl to dae format, removing material/gazebo colours
-* Make base_footprint a child of base_link
+* Make base_footprint a child of bobcat_base
 * Contributors: Paul Bovbel
 
 0.2.0 (2015-03-23)
@@ -121,7 +121,7 @@ Changelog for package husky_description
 0.1.2 (2015-01-30)
 ------------------
 * Update maintainers and description
-* Get rid of chassis_link, switch to base_footprint and base_link
+* Get rid of chassis_link, switch to base_footprint and bobcat_base
 * Switch to NED orientation for UM6 standard package
 * Contributors: Paul Bovbel
 
@@ -133,7 +133,7 @@ Changelog for package husky_description
 0.1.0 (2015-01-13)
 ------------------
 * Major refactor for indigo release:
-  * base_link is now located on the ground plane, while chassis_link
+  * bobcat_base is now located on the ground plane, while chassis_link
   * refactored joint names for consistency with Jackal and Grizzly for ros_control
   * moved plugins requiring gazebo dependencies to husky_gazebo (imu, gps, lidar, ros_control)
   * initial prefixing for multirobot
@@ -142,7 +142,7 @@ Changelog for package husky_description
 0.0.2 (2013-09-30)
 ------------------
 * Renamed /models folder to /meshes to follow the convention of other gazebo simulation packages.
-* Changed the base.urdf.xacro to use base_footprint as the parent frame. For some reason, the new Gazebo paints all parts the same color as base_link when base_link is the parent.
+* Changed the base.urdf.xacro to use base_footprint as the parent frame. For some reason, the new Gazebo paints all parts the same color as bobcat_base when bobcat_base is the parent.
 
 0.0.1 (2013-09-11)
 ------------------

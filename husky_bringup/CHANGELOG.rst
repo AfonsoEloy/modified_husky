@@ -104,7 +104,7 @@ Changelog for package husky_bringup
 0.1.1 (2015-01-30)
 ------------------
 * Update website and authors
-* Add transform to transfer IMU data to base_link frame
+* Add transform to transfer IMU data to bobcat_base frame
 * Make ROBOT_NETWORK optional
 * Switch to robot_upstart python API
 * Switch to debhelper install method for udeb rules

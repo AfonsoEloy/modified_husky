@@ -50,7 +50,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
     <!-- Attach chassis to the robot -->
     <joint name="top_chassis_joint" type="fixed">
-      <parent link="base_link" />
+      <parent link="bobcat_base" />
       <child link="top_chassis_link" />
     </joint>
 
@@ -67,7 +67,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       <!-- Attach user rails to base link -->
       <joint name="user_rail" type="fixed">
         <origin xyz="0.272 0 0.245" rpy="0 0 0" />
-        <parent link="base_link" />
+        <parent link="bobcat_base" />
         <child link="user_rail_link" />
       </joint>
     </xacro:if>
@@ -84,7 +84,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <!-- Attach front bumper -->
     <joint name="front_bumper" type="fixed">
       <origin xyz="${0.48 + husky_front_bumper_extend} 0 0.091" rpy="0 0 0" />
-      <parent link="base_link" />
+      <parent link="bobcat_base" />
       <child link="front_bumper_link" />
     </joint>
 
@@ -99,7 +99,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
       <joint name="front_bumper_extension" type="fixed">
         <origin xyz="${0.48 + husky_front_bumper_extend} 0 0.091" rpy="0 0 0" />
-        <parent link="base_link" />
+        <parent link="bobcat_base" />
         <child link="front_bumper_extension_link" />
       </joint>
     </xacro:if>
@@ -116,7 +116,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
     <!-- Attach rear bumper -->
     <joint name="rear_bumper" type="fixed">
       <origin xyz="${-0.48 - husky_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
-      <parent link="base_link" />
+      <parent link="bobcat_base" />
       <child link="rear_bumper_link" />
     </joint>
 
@@ -131,7 +131,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
       <joint name="rear_bumper_extension" type="fixed">
         <origin xyz="${-0.48 - husky_rear_bumper_extend} 0 0.091" rpy="0 0 ${M_PI}" />
-        <parent link="base_link" />
+        <parent link="bobcat_base" />
         <child link="rear_bumper_extension_link" />
       </joint>
     </xacro:if>
@@ -155,7 +155,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         </link>
         <!-- Attach top plate -->
         <joint name="top_plate_joint" type="fixed">
-          <parent link="base_link" />
+          <parent link="bobcat_base" />
           <child link="top_plate_link"/>
           <origin xyz="0.0812 0 0.225" rpy="0 0 0"/>
         </joint>
@@ -190,7 +190,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
         </link>
         <!-- Attach top plate -->
         <joint name="top_plate_joint" type="fixed">
-          <parent link="base_link" />
+          <parent link="bobcat_base" />
           <child link="top_plate_link"/>
           <origin xyz="0.0812 0 0.245" rpy="0 0 0"/>
         </joint>
